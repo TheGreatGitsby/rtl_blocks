@@ -1,0 +1,22 @@
+[options]
+mode bmc
+depth 20
+
+[engines]
+smtbmc boolector
+
+[script]
+read  -sv -formal Nto1_sync_fifo.v
+read  -sv FORMAL_Nto1_sync_fifo.v
+read  -sv -formal sync_fifo.sv
+read  -sv FORMAL_sync_fifo.sv
+#chparam -set N 2
+#chparam -set DEPTH 4
+#chparam -set DATA_WIDTH 4
+prep -top Nto1_sync_fifo
+
+[files]
+./verilog/FORMAL_Nto1_sync_fifo.v
+./verilog/Nto1_sync_fifo.v
+../../sync_fifo/sync_fifo.sv
+../../sync_fifo/formal/FORMAL_sync_fifo.sv

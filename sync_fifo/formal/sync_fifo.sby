@@ -1,0 +1,17 @@
+[options]
+mode bmc
+depth 20
+
+[engines]
+smtbmc boolector
+
+[script]
+read  -sv FORMAL_sync_fifo.sv
+read  -sv -formal sync_fifo.sv
+chparam -set FIFO_DEPTH 4
+chparam -set DATA_WIDTH 4
+prep -top sync_fifo
+
+[files]
+./FORMAL_sync_fifo.sv
+../sync_fifo.sv
