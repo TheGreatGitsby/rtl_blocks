@@ -11,7 +11,7 @@
           input logic [0: N-1] wr_en_i,
           input logic rd_en_i,
           output logic                   fifo_full_o,
-          output logic                   fifo_empty_o,  //TODO
+          output logic                   fifo_empty_o,
           output logic [DATA_WIDTH-1:0]  data_o
          );
 
@@ -28,7 +28,6 @@ logic         validfifo_empty;
 
 logic [$clog2(N+1)-1:0] fifo_sel;
 logic [$clog2(N+1)-1:0] fifo_sel_reg;
-
 
 generate
   for (genvar i=0; i<N; i++) begin
@@ -144,7 +143,7 @@ end
       .rd_en     (rd_en_i),
       .wr_en     (outfifo_wr_en),
       .data_out  (data_o),
-      .empty     (empty_o),
+      .empty     (fifo_empty_o),
       .full      (outfifo_full)
     );
 
