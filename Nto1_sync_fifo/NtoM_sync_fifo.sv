@@ -4,15 +4,15 @@
 //     The validfifo is used to keep track of which inputfifo
 //     has valid data.
   
- module Nto1_sync_fifo #(N = 4, DATA_WIDTH = 8, DEPTH = 8)
+ module NtoM_sync_fifo #(N = 4, M = 1, DATA_WIDTH = 8, DEPTH = 8)
          (input logic clk_i,
           input logic rst_n_i,
           input logic [0 : N-1] [DATA_WIDTH-1:0] data_i,
           input logic [0: N-1] wr_en_i,
-          input logic rd_en_i,
+          input logic [0: M-1] rd_en_i,
           output logic                   fifo_full_o,
-          output logic                   fifo_empty_o,
-          output logic [DATA_WIDTH-1:0]  data_o
+          output logic [0: M-1]          fifo_empty_o,
+          output logic [0:M-1] [DATA_WIDTH-1:0]  data_o
          );
 
 //one signal reads all input/valid fifos at once
@@ -134,9 +134,10 @@ end
 //inputs where not all inputs are valid.
 //TODO:  Should add an output FIFO depth parameter where if 0, a FIFO
 //       is not used at all.
-    sync_fifo #(
+    sync_fifo_1toM #(
       .DATA_WIDTH (DATA_WIDTH),
       .FIFO_DEPTH (DEPTH/2), //arbitrary
+      .M          (M),
       .INIT_FIFO  (0))
     output_fifo (
       .clk       (clk_i), 
