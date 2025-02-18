@@ -33,7 +33,7 @@ logic [ADDR_WIDTH :0]  fill_cnt;
 logic [DATA_WIDTH-1:0] data_ram ;
 logic [ADDR_WIDTH :0]  avail_slots;
 
-logic avail_slots = FIFO_DEPTH - fill_cnt;
+assign avail_slots = FIFO_DEPTH - fill_cnt;
 
 assign full    = (fill_cnt == FIFO_DEPTH);
 assign afull   = (fill_cnt == FIFO_AF_CNT);
@@ -41,7 +41,6 @@ assign afull   = (fill_cnt == FIFO_AF_CNT);
 always_comb begin
   for (int i=0; i<M; i++) begin
     data_out[i] = fifo_data[rd_ptr+i];
-    empty[i]    = (fill_cnt <= i);
   end
 end
 
@@ -52,7 +51,7 @@ begin : wr_ptr_update
   if (!rst_n) begin
     wr_ptr <= 0;
   end else if (wr_en>0) begin
-    wr_ptr <= (wr_en > avail_slots) rd_ptr : wr_ptr + wr_en;
+    wr_ptr <= (wr_en > avail_slots) ? rd_ptr : wr_ptr + wr_en;
   end
 end
 
